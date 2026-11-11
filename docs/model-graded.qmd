@@ -211,3 +211,5 @@ For more reproducible grading:
 1.  Set `temperature=0`, where the model accepts it, so the grader is as deterministic as the provider allows.
 2.  Set a `seed` where the provider supports it.
 3.  Run multiple `epochs` and inspect grade variance — setting `temperature=0` reduces, but does not always eliminate, run-to-run disagreement.
+
+Some grader models do not allow these settings. Inspect does not pass `temperature` to Anthropic models (see [Providers](providers.qmd#anthropic)); the Anthropic Messages API rejects it for Claude Opus 4.7 and later models (e.g. Claude Opus 5.5) and, as of API version `2026-10-21`, for earlier models as well. On the OpenAI Responses API, many reasoning models accept a request with `temperature=0` when `reasoning_effort="none"` is set, but some (e.g. GPT-6.1 Sol) reject `none` itself. For such a grader, items 1 and 2 are not available, and item 3, looking at how grades vary per item across multiple `epochs`, is the main option.
